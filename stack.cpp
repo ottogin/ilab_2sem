@@ -19,6 +19,11 @@ cstack::cstack(int s):
 	n(0),
         size(s)
 {
+	if(s <= 0)
+	{
+		printf("Calling stack constructor with bad parametr");
+		exit(0);
+	}
         a = (DATA*)calloc(s, (int)sizeof(DATA));
 	ASSERT(this, "stack constructor")
 }
@@ -55,13 +60,17 @@ cstack cstack::operator=(const cstack& c)
 void cstack::push(DATA x)
 	{
 		ASSERT(this, "stack push")
-		if(size >= n)
-			a[n++] = x;
+		if(size >= n + 1)
+		{
+			a[n++] = x;	
+		}
 		else
 		{
 			a = (DATA*)realloc(a ,SIZEINC * size * (int)sizeof(DATA));
-			a[n++] = x;
+			size = size * SIZEINC;
+			a[n++] = x;	
 		}
+		ASSERT(this, "stack push")
 	}
 
 DATA cstack::pop()
@@ -75,6 +84,7 @@ DATA cstack::pop()
 		}
 		n--;
 		return a[n];
+		ASSERT(this, "stack pop");
 	}
 DATA cstack::get_back()
 	{
@@ -101,7 +111,15 @@ void cstack::dump()
 	{
 		printf("\n\n/////////// STACK DUMP //////////\n\n");
 	        if(!this->is_ok())
-               		 printf("Bad stack");
+		{
+               		printf("Bad stack\n");
+			if(n > size || n < 0)
+				printf("Bad size : %d or reserved memory : %d", n, size);
+			else if(this == NULL)
+				printf("Stack doesn't exist");
+			else
+				printf("Stack has NULL-pointer to array"); 
+		}
      		else
      		{
                		printf(" size: %d reserved: %d pointer: %p \n", n, size, a);
