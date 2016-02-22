@@ -2,10 +2,11 @@
 
 #include<assert.h>
 
-# define ASSERT(object, adress)\
+# define ASSERT(object)\
         if(!object->is_ok())\
         {\
                 object->dump();\
-                assert(!"Error in " #adress);\
+                printf("Bad object in %s, in line %d, in file %s", __FUNCTION__, __LINE__, __FILE__);\
+		exit(0);\
         }\
 

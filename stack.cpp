@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "stack.h"
 #include "assert.h"
-
+#include "logger.cpp"
 
 
 //constructors inint
@@ -11,30 +11,34 @@ cstack::cstack():
 	n(0),
 	size(STARTSIZE)
 {
+	$1
         a = (DATA*)calloc(STARTSIZE, sizeof(DATA));
-	ASSERT(this, "stack defoult constructor")
+	ASSERT(this)
 }
 
 cstack::cstack(int s):
 	n(0),
         size(s)
 {
+	$1
 	if(s <= 0)
 	{
 		printf("Calling stack constructor with bad parametr");
 		exit(0);
 	}
         a = (DATA*)calloc(s, (int)sizeof(DATA));
-	ASSERT(this, "stack constructor")
+	ASSERT(this)
 }
+
 cstack::cstack(const cstack& c):
         size (c.size),
         n(c.n)
 {
+	$1
         a = (DATA*)calloc(c.size, (int)sizeof(DATA));
         for(int i = 0; i < c.n; i++)
         	a[i] = c.a[i];
-	ASSERT(this, "stack copy constructor")
+	ASSERT(this)
 }
 cstack::~cstack()
 {
@@ -46,12 +50,13 @@ cstack::~cstack()
 
 cstack cstack::operator=(const cstack& c)
 {
+	$1
 	size = c.size;
         n = c.n;
         a = (DATA*)calloc(c.size, (int)sizeof(DATA));
         for(int i = 0; i < c.n; i++)
                 a[i] = c.a[i];
-	ASSERT(this, "stack operator=")
+	ASSERT(this)
 	return *this;
 }
 
@@ -59,7 +64,8 @@ cstack cstack::operator=(const cstack& c)
 
 void cstack::push(DATA x)
 	{
-		ASSERT(this, "stack push")
+		$1
+		ASSERT(this)
 		if(size >= n + 1)
 		{
 			a[n++] = x;	
@@ -70,12 +76,13 @@ void cstack::push(DATA x)
 			size = size * SIZEINC;
 			a[n++] = x;	
 		}
-		ASSERT(this, "stack push")
+		ASSERT(this)
 	}
 
 DATA cstack::pop()
 	{
-		ASSERT(this, "stack pop")
+		$1
+		ASSERT(this)
 		if(this->is_empty())
 		{
 			printf("Try to pop element from empty stack\n");
@@ -84,11 +91,12 @@ DATA cstack::pop()
 		}
 		n--;
 		return a[n];
-		ASSERT(this, "stack pop");
+		ASSERT(this);
 	}
 DATA cstack::get_back()
 	{
-		ASSERT(this, "stack get_back")
+		$1
+		ASSERT(this)
 		if(this->is_empty())
                 {
 			printf("Try to get element from empty stack\n");
@@ -101,6 +109,7 @@ DATA cstack::get_back()
 
 bool cstack::is_ok()
 	{
+		$1
 		if(n > size || n < 0) return 0;
 		if(this == NULL) return 0;
        		if(a == NULL) return 0;
@@ -109,6 +118,7 @@ bool cstack::is_ok()
 	}
 void cstack::dump() 
 	{
+		$1
 		printf("\n\n/////////// STACK DUMP //////////\n\n");
 	        if(!this->is_ok())
 		{
@@ -134,6 +144,7 @@ void cstack::dump()
 	}
 bool cstack::is_empty()
 	{
+		$1
 		if(n == 0)
 			return 1;
 		return 0;	
@@ -141,9 +152,11 @@ bool cstack::is_empty()
 // get-functoins init
 int cstack::get_size()
 	{
+		$1
 		return size;
 	}
 int cstack::get_num()
 	{
+		$1
 		return n;
 	}

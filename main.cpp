@@ -1,21 +1,17 @@
 #include "stack.cpp"
+#include "logger.cpp"
 
 int main()
 {
+	$1
 	cstack a(1);
-	a.dump();
 	a.push(1);
-	a.dump();
 	a.push(5);
-	a.dump();
 	a.push(4);
-	a.dump();
 	printf("%d \n", a.pop());
 	printf("%d \n", a.get_back());
-	a.dump();
 	a.pop();
 	a.pop();
-	a.dump();
 	a.pop();
 	a.pop();
 	a.pop();
