@@ -5,9 +5,9 @@ typedef int DATA;       //type of stack's elements
 class cstack
 {
         private:
-                DATA * a;
-                int size;
-                int n;
+                DATA * array_;
+                int size_;
+                int n_;
         public:
                 //constructors
                 cstack();

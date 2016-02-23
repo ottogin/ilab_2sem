@@ -11,9 +11,6 @@ int main()
 	printf("%d \n", a.pop());
 	printf("%d \n", a.get_back());
 	a.pop();
-	a.pop();
-	a.pop();
-	a.pop();
-	a.pop();
+	a.dump();
 	return 0;
 }

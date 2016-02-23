@@ -25,14 +25,16 @@ class CLogger
 			level__++;
 			for(int i = 1; i < level__; i++)
 				fprintf(logfile__ , "  ");
-			fprintf(logfile__, "! Func %s in line %d from %s\n", func_, line_, file_);
+			fprintf(logfile__, "! Func %s in line %d from %s\n", func_, line_, file_);	
+			fflush(logfile__);
 		}
 		
 		~CLogger()
 		{
 			for(int i = 1; i < level__; i++)
                                 fprintf(logfile__ , "  ");
-			fprintf(logfile__, "? Func %s in line %d from %s\n", func_, line_, file_);
+			fprintf(logfile__, "? Func %s in line %d from %s\n", func_, line_, file_);	
+			fflush(logfile__);		
 			level__--;
 			if(level__ == 0)
 				fclose(logfile__);

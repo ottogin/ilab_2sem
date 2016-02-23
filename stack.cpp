@@ -8,17 +8,17 @@
 
 //constructors inint
 cstack::cstack():
-	n(0),
-	size(STARTSIZE)
+	n_(0),
+	size_(STARTSIZE)
 {
 	$1
-        a = (DATA*)calloc(STARTSIZE, sizeof(DATA));
+        array_ = (DATA*)calloc(STARTSIZE, sizeof(DATA));
 	ASSERT(this)
 }
 
 cstack::cstack(int s):
-	n(0),
-        size(s)
+	n_(0),
+        size_(s)
 {
 	$1
 	if(s <= 0)
@@ -26,36 +26,36 @@ cstack::cstack(int s):
 		printf("Calling stack constructor with bad parametr");
 		exit(0);
 	}
-        a = (DATA*)calloc(s, (int)sizeof(DATA));
+        array_ = (DATA*)calloc(s, (int)sizeof(DATA));
 	ASSERT(this)
 }
 
 cstack::cstack(const cstack& c):
-        size (c.size),
-        n(c.n)
+        size_(c.size_),
+        n_(c.n_)
 {
 	$1
-        a = (DATA*)calloc(c.size, (int)sizeof(DATA));
-        for(int i = 0; i < c.n; i++)
-        	a[i] = c.a[i];
+        array_ = (DATA*)calloc(size_, (int)sizeof(DATA));
+        for(int i = 0; i < n_; i++)
+        	array_[i] = c.array_[i];
 	ASSERT(this)
 }
 cstack::~cstack()
 {
-	free(a); 
-	a = NULL;
-	size = 0;
-	n =  0;
+	free(array_); 
+	array_ = NULL;
+	size_ = 0;
+	n_ =  0;
 } 
 
 cstack cstack::operator=(const cstack& c)
 {
 	$1
-	size = c.size;
-        n = c.n;
-        a = (DATA*)calloc(c.size, (int)sizeof(DATA));
-        for(int i = 0; i < c.n; i++)
-                a[i] = c.a[i];
+	size_ = c.size_;
+        n_ = c.n_;
+        array_ = (DATA*)calloc(size_, (int)sizeof(DATA));
+        for(int i = 0; i < n_; i++)
+                array_[i] = c.array_[i];
 	ASSERT(this)
 	return *this;
 }
@@ -66,15 +66,15 @@ void cstack::push(DATA x)
 	{
 		$1
 		ASSERT(this)
-		if(size >= n + 1)
+		if(size_ >= n_ + 1)
 		{
-			a[n++] = x;	
+			array_[n_++] = x;	
 		}
 		else
 		{
-			a = (DATA*)realloc(a ,SIZEINC * size * (int)sizeof(DATA));
-			size = size * SIZEINC;
-			a[n++] = x;	
+			array_ = (DATA*)realloc(array_ ,SIZEINC * size_ * (int)sizeof(DATA));
+			size_ = size_ * SIZEINC;
+			array_[n_++] = x;	
 		}
 		ASSERT(this)
 	}
@@ -89,8 +89,8 @@ DATA cstack::pop()
 			this->dump();
 			exit(0);
 		}
-		n--;
-		return a[n];
+		n_--;
+		return array_[n_];
 		ASSERT(this);
 	}
 DATA cstack::get_back()
@@ -103,16 +103,16 @@ DATA cstack::get_back()
                         this->dump();
                         exit(0);
                 }
-		return a[n - 1];
+		return array_[n_ - 1];
 	}
 // service functions init
 
 bool cstack::is_ok()
 	{
 		$1
-		if(n > size || n < 0) return 0;
+		if(n_ > size_ || n_ < 0) return 0;
 		if(this == NULL) return 0;
-       		if(a == NULL) return 0;
+       		if(array_ == NULL) return 0;
        	 	return 1;
 			
 	}
@@ -123,8 +123,8 @@ void cstack::dump()
 	        if(!this->is_ok())
 		{
                		printf("Bad stack\n");
-			if(n > size || n < 0)
-				printf("Bad size : %d or reserved memory : %d", n, size);
+			if(n_ > size_ || n_ < 0)
+				printf("Bad size : %d or reserved memory : %d", n_, size_);
 			else if(this == NULL)
 				printf("Stack doesn't exist");
 			else
@@ -132,12 +132,12 @@ void cstack::dump()
 		}
      		else
      		{
-               		printf(" size: %d reserved: %d pointer: %p \n", n, size, a);
+               		printf(" size: %d reserved: %d pointer: %p \n", n_, size_, array_);
 			if(this->is_empty())
 				printf("Stack is empty");
-               		for(int i = 0; i < n; i++)
+               		for(int i = 0; i < n_; i++)
                 	{
-                	        printf("( %d )", a[i]);					//change %d if DATA != int
+                	        printf("( %d )", array_[i]);					//change %d if DATA != int
          	       	}
         	}
        		 printf("\n\n////////////////////////////////\n\n");
@@ -145,7 +145,7 @@ void cstack::dump()
 bool cstack::is_empty()
 	{
 		$1
-		if(n == 0)
+		if(n_ == 0)
 			return 1;
 		return 0;	
 	}
@@ -153,10 +153,20 @@ bool cstack::is_empty()
 int cstack::get_size()
 	{
 		$1
-		return size;
+		return size_;
 	}
 int cstack::get_num()
 	{
 		$1
-		return n;
+		return n_;
+	}
+DATA cstack::get_element(int i)
+	{
+		$1
+		if(i >= n_)
+		{
+			printf("Try to get unexisting element");
+			exit(0);
+		}
+		return array_[i];
 	}
