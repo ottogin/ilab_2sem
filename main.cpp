@@ -1,16 +1,27 @@
-#include "stack.cpp"
+#include <iostream>
+#include <stdlib.h>
+
+
+//#include "stack.cpp"
 #include "logger.cpp"
+//#include "CVector.cpp"
+#include "tree.cpp"
 
 int main()
 {
 	$1
-	cstack a(1);
-	a.push(1);
-	a.push(5);
-	a.push(4);
-	printf("%d \n", a.pop());
-	printf("%d \n", a.get_back());
-	a.pop();
-	a.dump();
+	tree a;
+	FILE* in = fopen("file_to_parse.txt", "r");
+	char* s = (char*)malloc(1000);
+	char* it = s;
+	while(fscanf(in, "%c", it) != EOF)
+		it++;
+	a.init_parse(s);
+	a.print();
+	tree b;
+	b.init_calculate(&a);
+	b.print();
+	fclose(in);
+	free(s);
 	return 0;
 }
